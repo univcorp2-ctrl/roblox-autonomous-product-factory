@@ -15,7 +15,15 @@ def test_no_cookie_auth_or_secret_printing():
     assert "print(self._api_key)" not in text
 
 
-def test_windows_runner_sets_source_path():
+def test_windows_runner_sets_source_and_managed_tool_path():
     script = (Path(__file__).resolve().parents[1] / "scripts/run-once-hidden.ps1").read_text(encoding="utf-8")
     assert "PYTHONPATH" in script
     assert "'src'" in script
+    assert "tools\\bin" in script
+    assert "rojo.exe" in script
+
+
+def test_bootstrap_pins_rojo():
+    script = (Path(__file__).resolve().parents[1] / "scripts/bootstrap-rojo.ps1").read_text(encoding="utf-8")
+    assert "v7.6.1" in script
+    assert "rojo-7.6.1-windows-x86_64.zip" in script
