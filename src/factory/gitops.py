@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .process import run
+from .process import CommandFailed, run
 
 
 def sync_repo(repo_url: str, branch: str, target: Path) -> None:
@@ -10,6 +10,13 @@ def sync_repo(repo_url: str, branch: str, target: Path) -> None:
     if not (target / ".git").exists():
         run(f'git clone --depth 1 --branch "{branch}" "{repo_url}" "{target}"', target.parent)
         return
+
     run("git fetch --prune origin", target)
     run(f'git checkout "{branch}"', target)
-    run(f'git reset --hard "origin/{branch}"', target)
+    dirty = run("git status --porcelain", target).strip()
+    if dirty:
+        raise CommandFailed(
+            "working tree contains local changes; refusing to overwrite them. "
+            "Archive or commit the local work before autonomous sync.\n" + dirty[:4000]
+        )
+    run(f'git merge --ff-only "origin/{branch}"', target)
