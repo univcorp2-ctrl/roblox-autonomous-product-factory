@@ -13,3 +13,9 @@ def test_no_cookie_auth_or_secret_printing():
     text = "\n".join(path.read_text(encoding="utf-8") for path in root.glob("*.py"))
     assert ".ROBLOSECURITY" not in text
     assert "print(self._api_key)" not in text
+
+
+def test_windows_runner_sets_source_path():
+    script = (Path(__file__).resolve().parents[1] / "scripts/run-once-hidden.ps1").read_text(encoding="utf-8")
+    assert "PYTHONPATH" in script
+    assert "'src'" in script
