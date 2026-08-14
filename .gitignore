@@ -1,0 +1,7 @@
+work/
+state/
+tools/bin/
+*.rbxm
+*.rbxlx
+__pycache__/
+.pytest_cache/
