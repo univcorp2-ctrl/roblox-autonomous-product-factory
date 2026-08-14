@@ -1,0 +1,14 @@
+[product]
+name = "roblox-qa-autopilot-plugin"
+repo_url = "https://github.com/univcorp2-ctrl/roblox-qa-autopilot-plugin.git"
+branch = "main"
+
+[build]
+commands = [
+  "python scripts/static_check.py",
+  "rojo build default.project.json -o QAAutopilot.rbxm"
+]
+artifact = "QAAutopilot.rbxm"
+
+[gates]
+require_studio_mcp = true
