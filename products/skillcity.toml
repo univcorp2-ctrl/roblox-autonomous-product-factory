@@ -1,0 +1,15 @@
+[product]
+name = "roblox-skillcity"
+repo_url = "https://github.com/univcorp2-ctrl/roblox-skillcity.git"
+branch = "main"
+
+[build]
+commands = [
+  "python scripts/static_check.py",
+  "rojo build default.project.json -o SkillCity.rbxlx"
+]
+artifact = "SkillCity.rbxlx"
+
+[gates]
+require_studio_mcp = true
+opencloud_smoke_script = "tests/opencloud_smoke.luau"
