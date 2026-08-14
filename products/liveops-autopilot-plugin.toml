@@ -1,0 +1,14 @@
+[product]
+name = "roblox-liveops-autopilot-plugin"
+repo_url = "https://github.com/univcorp2-ctrl/roblox-liveops-autopilot-plugin.git"
+branch = "main"
+
+[build]
+commands = [
+  "python scripts/static_check.py",
+  "rojo build default.project.json -o LiveOpsAutopilot.rbxm"
+]
+artifact = "LiveOpsAutopilot.rbxm"
+
+[gates]
+require_studio_mcp = true
