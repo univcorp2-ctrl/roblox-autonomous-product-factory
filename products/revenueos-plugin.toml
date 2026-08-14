@@ -1,0 +1,14 @@
+[product]
+name = "roblox-revenueos-plugin"
+repo_url = "https://github.com/univcorp2-ctrl/roblox-revenueos-plugin.git"
+branch = "main"
+
+[build]
+commands = [
+  "python scripts/static_check.py",
+  "rojo build default.project.json -o RevenueOS.rbxm"
+]
+artifact = "RevenueOS.rbxm"
+
+[gates]
+require_studio_mcp = true
