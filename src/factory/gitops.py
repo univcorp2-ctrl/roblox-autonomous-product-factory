@@ -13,10 +13,14 @@ def sync_repo(repo_url: str, branch: str, target: Path) -> None:
 
     run("git fetch --prune origin", target)
     run(f'git checkout "{branch}"', target)
-    dirty = run("git status --porcelain", target).strip()
-    if dirty:
+
+    # Protect edits to tracked source files. Generated build artifacts are commonly
+    # untracked and must not stop the factory. Git itself will refuse a fast-forward
+    # if an untracked file would actually be overwritten by the incoming commit.
+    dirty_tracked = run("git status --porcelain --untracked-files=no", target).strip()
+    if dirty_tracked:
         raise CommandFailed(
-            "working tree contains local changes; refusing to overwrite them. "
-            "Archive or commit the local work before autonomous sync.\n" + dirty[:4000]
+            "tracked working-tree changes detected; refusing to overwrite them. "
+            "Archive or commit the local work before autonomous sync.\n" + dirty_tracked[:4000]
         )
     run(f'git merge --ff-only "origin/{branch}"', target)
