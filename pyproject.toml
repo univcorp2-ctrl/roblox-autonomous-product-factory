@@ -1,0 +1,16 @@
+[project]
+name = "roblox-autonomous-product-factory"
+version = "0.1.0"
+description = "Deterministic release factory for Roblox products"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+roblox-factory = "factory.runner:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
